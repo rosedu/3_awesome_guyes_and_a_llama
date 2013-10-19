@@ -33,8 +33,12 @@ FACEBOOK_APP_SECRET = "33e91c412cba84d2e89c8b3b7540c2fd"
 import facebook
 import webapp2
 import os
+import re
 import jinja2
 import urllib2
+import string
+import random
+import datetime
 
 from google.appengine.ext import db
 from webapp2_extras import sessions
@@ -42,6 +46,8 @@ from webapp2_extras import sessions
 config = {}
 config['webapp2_extras.sessions'] = dict(secret_key='penis')
 
+def id_generator(size=6, chars=string.ascii_uppercase + string.digits):
+    return ''.join(random.choice(chars) for x in range(size))
 
 class User(db.Model):
     id = db.StringProperty(required=True)
@@ -50,6 +56,17 @@ class User(db.Model):
     name = db.StringProperty(required=True)
     profile_url = db.StringProperty(required=True)
     access_token = db.StringProperty(required=True)
+    events = db.StringProperty() #(str,indexed=True,default=[])
+
+class Event(db.Model):
+    id = db.StringProperty()
+    name = db.StringProperty()
+    details = db.TextProperty()
+    where = db.StringProperty()
+    location = db.StringProperty()
+    date = db.StringProperty()
+    invites = db.StringProperty()
+    host = db.StringProperty()
 
 
 class BaseHandler(webapp2.RequestHandler):
@@ -86,6 +103,7 @@ class BaseHandler(webapp2.RequestHandler):
                         profile_url=profile["link"],
                         access_token=cookie["access_token"]
                     )
+                    user.events=""
                     user.put()
                 elif user.access_token != cookie["access_token"]:
                     user.access_token = cookie["access_token"]
@@ -133,11 +151,35 @@ class HomeHandler(BaseHandler):
         )))
 
     def post(self):
+"""
         template = jinja_environment.get_template('base.html')
         self.response.out.write(template.render(dict(
             facebook_app_id=FACEBOOK_APP_ID,
             current_user=self.current_user
         )))
+"""
+        name = self.request.get("name")
+        where = self.request.get("where")
+        date = self.request.get("date")
+        details = self.request.get("details")
+
+        id = id_generator(10)
+        e = Event()
+        e.id = id
+        e.name = name
+        e.where = where
+        e.details = details
+        e.date = str(date)
+        e.put()
+
+        user = User.get_or_insert(id=self.current_user['id'])
+
+        """
+        user.events = user.events + "," + str(id)
+        user.put()
+        """
+        self.redirect('/event?id='+id)
+
 """
         url = self.request.get('url')
         file = urllib2.urlopen(url)
@@ -146,6 +188,51 @@ class HomeHandler(BaseHandler):
         photo_url = ("http://www.facebook.com/"
                      "photo.php?fbid={0}".format(response['id']))
         self.redirect(str(photo_url))
+"""
+
+
+class EventPage(BaseHandler):
+    def get(self):
+        self.response.out.write("mumu")
+        """
+        p = Event.by_path(path).get()
+        template = jinja_environment.get_template('event.html')
+        if p:
+            graph = facebook.GraphAPI(self.current_user['access_token'])
+            friend_list = graph.get_connections("me", "friends");
+            friends = []
+            for f in friend_list['data']:
+                friends.append(f['name'])
+
+            self.response.out.write(template.render(dict(
+                event = p,
+                friends = friends
+            )))
+        else:
+            self.redirect("/")
+        """
+    def post(self):
+        pass
+
+"""
+class EditEvent(BaseHandler):
+    def get(self, path):
+        p = Event.by_path(path).get()
+        self.response.out.write(template.render(dict(
+                event = p,
+                path = path
+            )))
+
+    def post(self, path):
+        old_page = Event.by_path(path).get()
+        place = self.request.get('where')
+        if not (old_page or content):
+            return
+        elif not old_page:
+            p = Event(place)
+            p.put()
+
+        self.redirect(path)
 """
 
 class LogoutHandler(BaseHandler):
@@ -160,8 +247,12 @@ jinja_environment = jinja2.Environment(loader = jinja2.FileSystemLoader(template
 							   autoescape = True)
                                
 
-app = webapp2.WSGIApplication(
-    [('/', HomeHandler), ('/logout', LogoutHandler)],
+PAGE_RE = r'(?(?:[a-zA-Z0-9_-]+/?)*)'
+app = webapp2.WSGIApplication([
+    ('/', HomeHandler),
+    ('/logout', LogoutHandler),
+    ('/event', EventPage)
+    ],
     debug=True,
     config=config
 )
