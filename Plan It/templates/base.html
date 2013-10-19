@@ -69,8 +69,14 @@
         </div>
       </div>
     </div>
+
+    <div id="inviteFriends">
+      <a href='#' onclick="FacebookInviteFriends();">
+        Invite your friends to this event!
+      </a>
+    </div>
    
-    <div class="container">
+    <div class="container" id="textInsert">
     	
     </div> <!-- /container -->
     {% else %}
@@ -80,13 +86,6 @@
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
     <script>
-      window.fbAsyncInit = function() {
-        FB.init({appId: '{{ facebook_app_id }}', status: true, cookie: true,
-                 xfbml: true});
-        FB.Event.subscribe('{% if current_user %}auth.logout{% else %}auth.login{% endif %}', function(response) {
-          {% if current_user %} window.location = "/logout" {% else %} window.location.reload(); {% endif %}
-        });
-      };
       (function() {
         var e = document.createElement('script');
         e.type = 'text/javascript';
@@ -94,6 +93,71 @@
         e.async = true;
         document.getElementById('fb-root').appendChild(e);
       }());
+
+      function FacebookInviteFriends()
+      {
+        FB.ui({
+          method: 'apprequests',
+          title: 'Add friends to your event',
+          message: 'Invite friends dialog',
+          data: '{"eventId":"42","type":"Facebook"}'
+        }, fbCallback);
+      }
+
+      function fbCallback(response) {
+        console.log(response);
+      }
+
+      function processIncomingRequest() {
+        var isInvited = false;
+        var urlParams = {};
+        (function () {
+          var match,
+          pl     = /\+/g,  // Regex for replacing addition symbol with a space
+          search = /([^&=]+)=?([^&]*)/g,
+          decode = function (s) { return decodeURIComponent(s.replace(pl, " ")); },
+          query  = window.location.search.substring(1);
+
+        while (match = search.exec(query))
+          urlParams[decode(match[1])] = decode(match[2]);
+        })();
+
+        var requestType = urlParams["app_request_type"];
+
+        if (requestType == "user_to_user") {
+          var requestID = urlParams["request_ids"];
+
+          FB.api(requestID, function(response) {
+            var gChallengerID = response.from.id;
+            var gChallengerName = response.from.name.split(" ")[0];
+            print("Invited by "+gChallengerID+" "+gChallengerName);
+            isInvited = true;
+          });
+        }
+        return isInvited;
+      }
+    </script>
+    <script>
+      window.fbAsyncInit = function() {
+        FB._https = true;
+        FB.init({appId: '{{ facebook_app_id }}', status: true, cookie: true,
+                 xfbml: true});
+
+        FB.getLoginStatus(function(response) {
+          if (response.status === 'connected') {
+            gPlayerFBID = response.authResponse.userID;
+            if (processIncomingRequest()) {
+              document.getElementById('textInsert').textContent="Invited";
+            } else {
+              document.getElementById('textInsert').textContent="Not invited";
+            }
+          }
+        });
+
+        FB.Event.subscribe('{% if current_user %}auth.logout{% else %}auth.login{% endif %}', function(response) {
+          {% if current_user %} window.location = "/logout" {% else %} window.location.reload(); {% endif %}
+        });
+      };
     </script>
     <script src="../assets/js/jquery.js"></script>
     <script src="../assets/js/bootstrap-transition.js"></script>

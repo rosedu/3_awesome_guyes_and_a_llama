@@ -131,8 +131,14 @@ class HomeHandler(BaseHandler):
             facebook_app_id=FACEBOOK_APP_ID,
             current_user=self.current_user
         )))
-"""
+
     def post(self):
+        template = jinja_environment.get_template('base.html')
+        self.response.out.write(template.render(dict(
+            facebook_app_id=FACEBOOK_APP_ID,
+            current_user=self.current_user
+        )))
+"""
         url = self.request.get('url')
         file = urllib2.urlopen(url)
         graph = facebook.GraphAPI(self.current_user['access_token'])
