@@ -2,6 +2,7 @@
 
 
 {% block content %}
+<div class="container-fluid">
 <form class="main-edit" method="post">
     <form class="form-horizontal">
       <div class="control-group">
@@ -22,16 +23,22 @@
           <input type="text" name="date" placeholder="{{event.date}}">
         </div>
       </div>
-      <div class="control-group">
+      <!--
+      <div class="control-group container-fluid">
         <label class="control-label" for="invites">Invites</label>
-        {% for friend in friends %}
-            <label class="checkbox">
-            <input type="checkbox" name="friends">
-            {{friend}}
-            </label>
-        {% endfor %}
+            <div class="row-fluid">
+                {% for friend in friends %}
+                <div class="span2">
+                    <label class="checkbox">
+                    <input type="checkbox" name="friends">
+                    {{friend}}
+                    </label>
+                </div>
+                {% endfor %}
+            </div>
         </label>
       </div>
+      -->
       <div class="control-group">
         <div class="controls">
           <button type="submit" class="btn">Save</button>
@@ -39,5 +46,5 @@
       </div>
     </form>
 </form>
-  
+</div>
 {% endblock %}

@@ -1,6 +1,14 @@
 {% extends "base.html" %}
-
+<!--graph.facebook.com/ + uid + /picture?type=square-->
 {% block content %}
+<div class="row-fluid marketing">
+    <div class="span4">
+    {% for event in events %}
+      <h4><a href="/event?id={{event.id}}">{{event.name}}</a></h4>
+      <p>{{event.description}}</p>
+      <hr>
+    {% endfor %}  
+    </div>    
+</div>
 
- 
 {% endblock %}
