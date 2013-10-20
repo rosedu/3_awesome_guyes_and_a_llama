@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 <!--graph.facebook.com/ + uid + /picture?type=square-->
 {% block content %}
+{% if current_user %}
+<div class="container-fluid">
 <div class="row-fluid marketing">
     <div class="span4">
     {% for event in events %}
       <h4><a href="/event?id={{event.id}}">{{event.name}}</a></h4>
-      <p>{{event.description}}</p>
+      <p>{{event.details}}</p>
       <hr>
     {% endfor %}  
     </div>    
 </div>
-
+</div>
+{% endif %}
 {% endblock %}

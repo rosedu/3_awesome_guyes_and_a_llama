@@ -146,10 +146,24 @@ class BaseHandler(webapp2.RequestHandler):
 
 class HomeHandler(BaseHandler):
     def get(self):
-        template = jinja_environment.get_template('base.html')
+        template = jinja_environment.get_template('front.html')
+        ev_list = []
+        
+        
+        if(self.current_user):        
+            user = db.GqlQuery("SELECT * FROM User WHERE id = '"+self.current_user['id']+"'")
+            u = list(user)[0]
+            if(u.events):
+                events = u.events.split(',')
+                for e in events:
+                    if(e):
+                        ev_query = db.GqlQuery("SELECT * FROM Event WHERE id = '"+ e +"'")
+                        ev_list.append(list(ev_query)[0])
+                    
         self.response.out.write(template.render(dict(
             facebook_app_id=FACEBOOK_APP_ID,
-            current_user=self.current_user
+            current_user=self.current_user,
+            events = ev_list
         )))
     def post(self):
         name = self.request.get("name")
