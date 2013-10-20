@@ -69,8 +69,13 @@ class Event(db.Model):
     invites = db.StringProperty()
     host = db.StringProperty()
 
+class Location(db.Model):
+    id = db.StringProperty()
+    name = db.StringProperty()
+    type = db.StringProperty()
+    slots = db.ListProperty(int, indexed=True, default=[])
 
-
+    
 class BaseHandler(webapp2.RequestHandler):
     """Provides access to the active Facebook user in self.current_user
 
@@ -148,8 +153,6 @@ class HomeHandler(BaseHandler):
     def get(self):
         template = jinja_environment.get_template('front.html')
         ev_list = []
-        
-        
         if(self.current_user):        
             user = db.GqlQuery("SELECT * FROM User WHERE id = '"+self.current_user['id']+"'")
             u = list(user)[0]
@@ -204,26 +207,55 @@ class EventPage(BaseHandler):
     def get(self):
         id = self.request.get_all("id")
         event = db.GqlQuery("SELECT * FROM Event WHERE id = '"+ id[0] +"'")
-        event_p = list(event)[0]
-
-        template = jinja_environment.get_template('event.html')
-        if event_p:
+        if event:
+            event_p = list(event)[0]
+            template = jinja_environment.get_template('event.html')
+            """
             graph = facebook.GraphAPI(self.current_user['access_token'])
             friend_list = graph.get_connections("me", "friends");
             friends = []
             for f in friend_list['data']:
                 friends.append(f['name'])
+            """       
             self.response.out.write(template.render(dict(
                 event = event_p, 
-                friends = friends,
-                current_user = self.current_user
+                current_user = self.current_user,
+                editLocation = False
             )))
-            
         else:
-            self.redirect("/")
+            self.error(404)
         
-    def post(self):
+    def post(self, path):
         pass
+        """
+        ok_button = self.request.get('ok')
+        save_button = self.request.get('save')
+        edit_button = self.request.get('edit')
+        id = self.request.get_all("id")
+        event = db.GqlQuery("SELECT * FROM Event WHERE id = '"+ id[0] +"'")
+        template = jinja_environment.get_template('event.html')
+        if event:
+            event_p = list(event)[0]
+            if edit_button :
+                editable = False
+                where = self.request.get("where")
+                query = db.GqlQuery("SELECT * FROM Location WHERE type = '" + where + "'")
+                locations = list(query)
+                stringLocations = [location.name for location in locations]
+                editLocation = True
+                self.response.out.write(template.render(dict(
+                    event = event_p,
+                    current_user = self.current_user,
+                    editable = editable,
+                    stringLocations = stringLocations,
+                    editLocation = editLocation
+                )))
+            elif ok_button:
+                select_answer = self.request.get('location')
+                id = self.request.get_all("id")
+                event.location = select_answer
+                self.redirect(path)
+        """     
 
 class LogoutHandler(BaseHandler):
     def get(self):

@@ -1,6 +1,5 @@
 {% extends "base.html" %}
 
-
 {% block content %}
 <div class="container-fluid">
 <form class="main-edit" method="post">
@@ -8,42 +7,53 @@
       <div class="control-group">
         <label class="control-label" for="where">Where</label>
         <div class="controls">
-          <input type="text" name="where" placeholder="{{event.where}}">
+          <input type="text" name="where" value="{{event.where}}">
         </div>
       </div>
       <div class="control-group">
         <label class="control-label" for="location">Location</label>
         <div class="controls">
-          <input type="text" name="location" placeholder="{{event.location}}">
+            <select class="span2" name="location" id="location">
+                <option value="studentpub">StudentPub</option>
+                <option value="hanulberarilor">Hanul Berarilor</option>
+                <option value="cafedeko">Cafe Deko</option>
+            </select>
         </div>
       </div>
+     
       <div class="control-group">
         <label class="control-label" for="date">Date</label>
         <div class="controls">
-          <input type="text" name="date" placeholder="{{event.date}}">
+          <input type="text" name="date" value="{{event.date}}">
         </div>
       </div>
+
       <!--
-      <div class="control-group container-fluid">
-        <label class="control-label" for="invites">Invites</label>
-            <div class="row-fluid">
-                {% for friend in friends %}
-                <div class="span2">
-                    <label class="checkbox">
-                    <input type="checkbox" name="friends">
-                    {{friend}}
-                    </label>
-                </div>
+      {% if editLocation %}
+      <div class="ex">
+        <form class="form-horizontal" method="post">
+            <div class="control-group">
+                {% for location in stringLocations %}
+                <input type="radio" name="location" value="{{location}}"/>
                 {% endfor %}
+                <div class="control-group">
+                  <div class="controls">
+                    <button type="submit" class="btn" name="ok">OK</button>
+                  </div>
+                </div>
             </div>
-        </label>
+        </form>
       </div>
+      {% endif %}
+      {% if editable %}
+      
       -->
       <div class="control-group">
         <div class="controls">
-          <button type="submit" class="btn">Save</button>
+          <button type="submit" class="btn" name="save">Save</button>
         </div>
       </div>
+      {% endif %}
     </form>
 </form>
 </div>
