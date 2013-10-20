@@ -136,7 +136,6 @@
         </form>
     </div>
     <!--
->>>>>>> coco
     <div class="ex" id="p2" style="visibility:hidden">
         <form method="post">
             <br>
@@ -188,17 +187,9 @@
 
       function fbCallback(response) {
         var i = 0, ids = response['to'];
+        document.getElementById('textInsert').setAttribute('total',ids.length);
         for (i=0; i<ids.length; i++) {
-          document.getElementById('textInsert').innerHTML +=
-            "<div id="
-            + ids[i]
-            + "><fb:name uid="
-            + ids[i]
-            + "></fb:name>"
-            + "<fb:profile-pic uid="
-            + ids[i]
-            + "></fb:profile-pic>"
-            + "<br /></div>";
+          document.getElementById('textInsert').innerHTML += "<div id="+ids[i]+"></div>";
         }
       }
 
@@ -240,11 +231,6 @@
         FB.getLoginStatus(function(response) {
           if (response.status === 'connected') {
             gPlayerFBID = response.authResponse.userID;
-            if (processIncomingRequest()) {
-              document.getElementById('textInsert').textContent="Invited";
-            } else {
-              document.getElementById('textInsert').textContent="Not invited";
-            }
           }
         });
 
