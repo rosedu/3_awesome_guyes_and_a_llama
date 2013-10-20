@@ -22,6 +22,7 @@
         margin-left: -250px;
         margin-top: -175px;
         z-index = 1;
+        background-color:#CDCDCD
       }
       
       body {
@@ -60,7 +61,6 @@
       .marketing p + h4 {
         margin-top: 28px;
       }
-    </style>
     </style>
     <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -162,34 +162,17 @@
         </form>
     </div>
 
-    <!--
-    <div class="ex" id="p2" style="visibility:hidden">
-        <form method="post">
-            <br>
-            <Label> Name&nbsp;&nbsp; </Label>
-            <input name="name" id="name">
-            <br>
-            <br>
-            <Label> Where&nbsp;&nbsp; </Label>
-            <select name="where" id="where">
-                <option value="journey">Journey</option>
-                <option value="meeting">Meeting</option>
-                <option value="movie">Movie</option>
-            </select>
-            <br>
-            <Label> When&nbsp;&nbsp; </Label>
-            <input type="date" name="date" id="datepicker"/>
-            <br>
-            <br>
-            <Label> Details&nbsp;&nbsp; </Label>
-            <textarea name="details" id="details" ></textarea>
-            <input type="submit" value="Create"/>
-            <input type="button" name="cancel" value="Cancel" onclick="plm2()"/>
-        </form>
-	</div>-->
-
+ 
     {% else %}
+    
+    <div class="container">
+      
+      <div class="masthead" align="center">
+        <img src="assets\logo_large.png"/>
+        <hr>
         <fb:login-button autologoutlink="true" scope="publish_stream"></fb:login-button>
+      </div>
+    </div>
     {% endif %}
     <!-- Le javascript
     ================================================== -->

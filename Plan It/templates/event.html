@@ -2,12 +2,17 @@
 
 {% block content %}
 <div class="container-fluid">
-<form class="main-edit" method="post">
-    <form class="form-horizontal">
+
+    <form class="form-horizontal" method="post">
       <div class="control-group">
         <label class="control-label" for="where">Where</label>
         <div class="controls">
-          <input type="text" name="where" value="{{event.where}}">
+            <select class="span2" name="where" id="where">
+                <option value="holiday">Holiday</option>
+                <option value="pub">Pub</option>
+                <option value="restaurant">Restaurant</option>
+                <option value="movie">Cinema</option>
+            </select>
         </div>
       </div>
       <div class="control-group">
@@ -24,81 +29,30 @@
       <div class="control-group">
         <label class="control-label" for="date">Date</label>
         <div class="controls">
-          <input type="text" name="date" value="{{event.date}}">
+          <input type="date" name="date" value="{{event.date}}">
         </div>
       </div>
 
-      <!--
-      {% if editLocation %}
-      <div class="ex">
-        <form class="form-horizontal" method="post">
-            <div class="control-group">
-                {% for location in stringLocations %}
-                <input type="radio" name="location" value="{{location}}"/>
-                {% endfor %}
-                <div class="control-group">
-                  <div class="controls">
-                    <button type="submit" class="btn" name="ok">OK</button>
-                  </div>
-                </div>
-            </div>
-        </form>
-      </div>
-      {% endif %}
-      {% if editable %}
-      
-      -->
+
       <div class="control-group">
         <div class="controls">
           <button type="submit" class="btn" name="save">Save</button>
+           <div id="inviteFriends">
+           <br>
+           <br>
+            <a href='#' onclick="FacebookInviteFriends();">
+                Invite your friends to this event!
+            </a>
+          </div>
         </div>
       </div>
-      {% endif %}
+      
+     
     </form>
-</form>
 
 
-<div id="fb-root"></div>
-    <div class="navbar navbar-static-top navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-
-          <a class="brand" href="#"><img src="../assets/logo.png"/></a>
-          <div class="nav-collapse collapse">
-            <ul class="nav">
-              <li>
-              	<a onclick="plm()"><i class="icon-plus"></i> Create Event</a>
-              </li>
-              <li>
-              	<a href="/"><i class="icon-flag"></i> Notifications</a>
-              </li>	
-              <li>
-                  <form class="navbar-search pull-right">	
-                    <input type="text" class="search-query" placeholder="Search">
-                  </form>
-              </li>
-            </ul>
-            <ul class="nav pull-right">
-              <li>
-	              <a href="/"><i class="icon-cog"></i> Settings</a>
-              </li>
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div>
-      </div>
-    </div>
-
-    <div id="inviteFriends">
-      <a href='#' onclick="FacebookInviteFriends();">
-        Invite your friends to this event!
-      </a>
-    </div>
     <div class="container" id="textInsert">
     </div>
 </div>
+
 {% endblock %}

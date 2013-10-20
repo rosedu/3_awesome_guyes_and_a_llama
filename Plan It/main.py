@@ -202,8 +202,8 @@ class HomeHandler(BaseHandler):
         self.redirect(str(photo_url))
 """
 
-
 class EventPage(BaseHandler):
+    
     def get(self):
         id = self.request.get_all("id")
         event = db.GqlQuery("SELECT * FROM Event WHERE id = '"+ id[0] +"'")
@@ -218,44 +218,33 @@ class EventPage(BaseHandler):
                 friends.append(f['name'])
             """       
             self.response.out.write(template.render(dict(
-                event = event_p, 
-                current_user = self.current_user,
-                editLocation = False
+                facebook_app_id=FACEBOOK_APP_ID,
+                current_user=self.current_user,
+                event = event_p
             )))
         else:
             self.error(404)
         
-    def post(self, path):
-        pass
-        """
-        ok_button = self.request.get('ok')
-        save_button = self.request.get('save')
-        edit_button = self.request.get('edit')
+    def post(self):
+        where = self.request.get("where")
+        date = self.request.get("date")
+        location = self.request.get("location")
+        
         id = self.request.get_all("id")
         event = db.GqlQuery("SELECT * FROM Event WHERE id = '"+ id[0] +"'")
-        template = jinja_environment.get_template('event.html')
         if event:
             event_p = list(event)[0]
-            if edit_button :
-                editable = False
-                where = self.request.get("where")
-                query = db.GqlQuery("SELECT * FROM Location WHERE type = '" + where + "'")
-                locations = list(query)
-                stringLocations = [location.name for location in locations]
-                editLocation = True
-                self.response.out.write(template.render(dict(
-                    event = event_p,
-                    current_user = self.current_user,
-                    editable = editable,
-                    stringLocations = stringLocations,
-                    editLocation = editLocation
-                )))
-            elif ok_button:
-                select_answer = self.request.get('location')
-                id = self.request.get_all("id")
-                event.location = select_answer
-                self.redirect(path)
-        """     
+            
+            event_p.where = where
+            event_p.date = date
+            event_p.location = location
+           
+            event_p.put()
+            
+            self.redirect("/")
+           
+
+          
 
 class LogoutHandler(BaseHandler):
     def get(self):
@@ -269,7 +258,6 @@ jinja_environment = jinja2.Environment(loader = jinja2.FileSystemLoader(template
                                autoescape = True)
                                
 
-PAGE_RE = r'(?(?:[a-zA-Z0-9_-]+/?)*)'
 app = webapp2.WSGIApplication([
     ('/', HomeHandler),
     ('/logout', LogoutHandler),
