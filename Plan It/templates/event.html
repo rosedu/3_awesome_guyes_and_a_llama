@@ -7,7 +7,7 @@
       <div class="control-group">
         <label class="control-label" for="where">Where</label>
         <div class="controls">
-          <input type="text" name="where" placeholder="{{event.place}}">
+          <input type="text" name="where" placeholder="{{event.where}}">
         </div>
       </div>
       <div class="control-group">
@@ -24,10 +24,11 @@
       </div>
       <div class="control-group">
         <label class="control-label" for="invites">Invites</label>
-        <label class="checkbox">
         {% for friend in friends %}
+            <label class="checkbox">
             <input type="checkbox" name="friends">
-            {{friend.name}}
+            {{friend}}
+            </label>
         {% endfor %}
         </label>
       </div>
