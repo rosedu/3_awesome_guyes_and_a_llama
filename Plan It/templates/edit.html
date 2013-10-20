@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+<form class="main-edit" method="post">
+    <form class="form-horizontal">
+      <div class="control-group">
+        <label class="control-label" for="where">Where</label>
+        <div class="controls">
+          <input type="text" name="where" placeholder="{{event.place}}">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="location">Location</label>
+        <div class="controls">
+          <input type="text" name="location" placeholder="{{event.location}}">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="date">Date</label>
+        <div class="controls">
+          <input type="text" name="date" placeholder="{{event.date}}">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="invites">Invites</label>
+        <label class="checkbox">
+        {% for friend in friends %}
+            <input type="checkbox" name="friends">
+            {{friend.name}}
+        {% endfor %}
+        </label>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <button type="submit" class="btn">Save</button>
+        </div>
+      </div>
+    </form>
+</form>
+{% endblock %}
