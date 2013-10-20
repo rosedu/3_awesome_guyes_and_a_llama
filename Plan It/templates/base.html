@@ -13,7 +13,7 @@
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
       }
-      
+
       div.ex{
         width:450px;
         height:350px;
@@ -54,7 +54,7 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          
+
           <a class="brand" href="#"><img src="../assets/logo.png"/></a>
           <div class="nav-collapse collapse">
             <ul class="nav">
@@ -63,9 +63,9 @@
               </li>
               <li>
               	<a href="/"><i class="icon-flag"></i> Notifications</a>
-              </li>	
+              </li>
               <li>
-                  <form class="navbar-search pull-right">	
+                  <form class="navbar-search pull-right">
                     <input type="text" class="search-query" placeholder="Search">
                   </form>
               </li>
@@ -74,26 +74,16 @@
               <li>
 	              <a href="/"><i class="icon-cog"></i> Settings</a>
               </li>
-              <li> 
+              <li>
                 <fb:login-button autologoutlink="true" scope="publish_stream"></fb:login-button>
               </li>
             </ul>
-            
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
-
-    <div id="inviteFriends">
-      <a href='#' onclick="FacebookInviteFriends();">
-        Invite your friends to this event!
-      </a>
-    </div>
-
-    <div class="container" id="textInsert">
-    </div> <!-- /container -->
     {% block content %}
-    
+
     {% endblock %}
     <div id="p2" class="ex" style="visibility:hidden">
         <br>
@@ -135,31 +125,6 @@
             </div>
         </form>
     </div>
-    <!--
-    <div class="ex" id="p2" style="visibility:hidden">
-        <form method="post">
-            <br>
-            <Label> Name&nbsp;&nbsp; </Label>
-            <input name="name" id="name">
-            <br>
-            <br>
-            <Label> Where&nbsp;&nbsp; </Label>
-            <select name="where" id="where">
-                <option value="journey">Journey</option>
-                <option value="meeting">Meeting</option>
-                <option value="movie">Movie</option>
-            </select>
-            <br>
-            <Label> When&nbsp;&nbsp; </Label>
-            <input type="date" name="date" id="datepicker"/>
-            <br>
-            <br>
-            <Label> Details&nbsp;&nbsp; </Label>
-            <textarea name="details" id="details" ></textarea>
-            <input type="submit" value="Create"/>
-            <input type="button" name="cancel" value="Cancel" onclick="plm2()"/>
-        </form>
-	</div>-->
     {% else %}
         <fb:login-button autologoutlink="true" scope="publish_stream"></fb:login-button>
     {% endif %}
