@@ -15,16 +15,16 @@
       }
       
       div.ex{
-        width:300px;
-        height:200px;
+        width:450px;
+        height:350px;
         padding:10px;
         border:5px solid grey;
         margin:0px;
         position: fixed;
         top: 50%;
         left: 50%;
-        margin-left: -155px;
-        margin-top: -100px;
+        margin-left: -250px;
+        margin-top: -175px;
         z-index = 1;
       }
     </style>
@@ -89,11 +89,54 @@
         Invite your friends to this event!
       </a>
     </div>
+
     <div class="container" id="textInsert">
     </div> <!-- /container -->
     {% block content %}
     
     {% endblock %}
+    <div id="p2" class="ex" style="visibility:hidden">
+        <br>
+        <br>
+        <form class="form-horizontal" method="post">
+            <div class="control-group">
+                <label class="control-label" for="name">Name</label>
+                <div class="controls">
+                    <input class="span2" type="text" id="name" name="name">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="where">Where</label>
+                <div class="controls">
+                    <select class="span2" name="where" id="where">
+                        <option value="journey">Journey</option>
+                        <option value="meeting">Meeting</option>
+                        <option value="movie">Movie</option>
+                    </select>
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="datepicker">When</label>
+                <div class="controls">
+                    <input class="span2" type="date" id="datepicker" name="date">
+                </div>
+            </div>
+            <div class="control-group">
+                <label class="control-label" for="details">Details</label>
+                <div class="controls">
+                    <textarea style="resize: none;" rows="3" class="span2" id="details" name="details"></textarea>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <button type="submit" class="btn">Create</button>
+                    <button type="reset" class="btn" name="cancel" value="Cancel" onclick="plm2()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <!--
+>>>>>>> coco
     <div class="ex" id="p2" style="visibility:hidden">
         <form method="post">
             <br>
@@ -117,7 +160,7 @@
             <input type="submit" value="Create"/>
             <input type="button" name="cancel" value="Cancel" onclick="plm2()"/>
         </form>
-	</div>
+	</div>-->
     {% else %}
         <fb:login-button autologoutlink="true" scope="publish_stream"></fb:login-button>
     {% endif %}

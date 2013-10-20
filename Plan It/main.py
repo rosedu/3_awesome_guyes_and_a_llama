@@ -165,6 +165,7 @@ class HomeHandler(BaseHandler):
         e.details = details
         e.date = str(date)
         e.host = str(self.current_user['id'])
+
         e.put()
     
         user = db.GqlQuery("SELECT * FROM User WHERE id = '"+self.current_user['id']+"'")
@@ -190,6 +191,7 @@ class EventPage(BaseHandler):
         id = self.request.get_all("id")
         event = db.GqlQuery("SELECT * FROM Event WHERE id = '"+ id[0] +"'")
         event_p = list(event)[0]
+
         template = jinja_environment.get_template('event.html')
         if event_p:
             graph = facebook.GraphAPI(self.current_user['access_token'])
@@ -197,7 +199,6 @@ class EventPage(BaseHandler):
             friends = []
             for f in friend_list['data']:
                 friends.append(f['name'])
-            
             self.response.out.write(template.render(dict(
                 event = event_p, 
                 friends = friends,
