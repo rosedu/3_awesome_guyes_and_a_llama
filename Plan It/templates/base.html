@@ -187,7 +187,19 @@
       }
 
       function fbCallback(response) {
-        console.log(response);
+        var i = 0, ids = response['to'];
+        for (i=0; i<ids.length; i++) {
+          document.getElementById('textInsert').innerHTML +=
+            "<div id="
+            + ids[i]
+            + "><fb:name uid="
+            + ids[i]
+            + "></fb:name>"
+            + "<fb:profile-pic uid="
+            + ids[i]
+            + "></fb:profile-pic>"
+            + "<br /></div>";
+        }
       }
 
       function processIncomingRequest() {
