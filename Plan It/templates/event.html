@@ -1,13 +1,14 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container-fluid">
 
+	<h2>Edit event</h2>
+    <div class="col-md-3 col-md-offset-1">
     <form class="form-horizontal" method="post">
-      <div class="control-group">
+      <div class="form-group">
         <label class="control-label" for="where">Where</label>
-        <div class="controls">
-            <select class="span2" name="where" id="where">
+        <div class="control-label">
+            <select class="form-control" name="where" id="where">
                 <option value="holiday">Holiday</option>
                 <option value="pub">Pub</option>
                 <option value="restaurant">Restaurant</option>
@@ -15,28 +16,31 @@
             </select>
         </div>
       </div>
-      <div class="control-group">
+      <br />
+      <div class="form-group">
         <label class="control-label" for="location">Location</label>
-        <div class="controls">
-            <select class="span2" name="location" id="location">
+        <div class="control-label">
+            <select class="form-control" name="location" id="location">
                 <option value="studentpub">StudentPub</option>
                 <option value="hanulberarilor">Hanul Berarilor</option>
                 <option value="cafedeko">Cafe Deko</option>
             </select>
         </div>
       </div>
-     
-      <div class="control-group">
+      <br />
+      <div class="form-group">
         <label class="control-label" for="date">Date</label>
-        <div class="controls">
-          <input type="date" name="date" value="{{event.date}}">
+        <div class="control-label">
+          <input class="form-control" type="date" name="date" value="{{event.date}}">
         </div>
       </div>
+      <br />
 
-
-      <div class="control-group">
-        <div class="controls">
-          <button type="submit" class="btn" name="save">Save</button>
+      <div class="form-group">
+        
+          <button type="submit" class="btn btn btn-primary" name="save">Save</button>
+          <br />
+ 
            <div id="inviteFriends">
            <br>
            <br>
@@ -44,15 +48,17 @@
                 Invite your friends to this event!
             </a>
           </div>
-        </div>
+       
       </div>
-      
+      <br>
+      <br>
+      <div class="fb-comments" data-numposts="5" ></div>
      
     </form>
 
-
+    
     <div class="container" id="textInsert">
     </div>
-</div>
+	</div>
 
 {% endblock %}

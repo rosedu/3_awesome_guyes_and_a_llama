@@ -156,12 +156,15 @@ class HomeHandler(BaseHandler):
         if(self.current_user):        
             user = db.GqlQuery("SELECT * FROM User WHERE id = '"+self.current_user['id']+"'")
             u = list(user)[0]
+            
             if(u.events):
                 events = u.events.split(',')
+                events.reverse()
                 for e in events:
                     if(e):
                         ev_query = db.GqlQuery("SELECT * FROM Event WHERE id = '"+ e +"'")
-                        ev_list.append(list(ev_query)[0])
+                        if(list(ev_query)[0].name):
+                            ev_list.append(list(ev_query)[0])
                     
         self.response.out.write(template.render(dict(
             facebook_app_id=FACEBOOK_APP_ID,

@@ -1,31 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<form class="main-edit" method="post">
+<h2>Edit event</h2>
+<form class="form-horizontal" role="form" method="post">
     <form class="form-horizontal">
       <div class="control-group">
-        <label class="control-label" for="where">Where</label>
-        <div class="controls">
-          <input type="text" name="where" placeholder="{{event.where}}">
+        <label class="col-sm-2 control-label" for="where">Where</label>
+        <div class="col-sm-10 control-label">
+          <input class="form-control" type="text" name="where" placeholder="{{event.where}}">
         </div>
       </div>
+      
       <div class="control-group">
-        <label class="control-label" for="location">Location</label>
-        <div class="controls">
-          <input type="text" name="location" placeholder="{{event.location}}">
+        <label class="col-sm-2 control-label" for="location">Location</label>
+        <div class="col-sm-10 control-label">
+          <input class="form-control" type="text" name="location" placeholder="{{event.location}}">
         </div>
       </div>
+      
       <div class="control-group">
-        <label class="control-label" for="date">Date</label>
-        <div class="controls">
-          <input type="text" name="date" placeholder="{{event.date}}">
+        <label class="col-sm-2 control-label" for="date">Date</label>
+        <div class="col-sm-10 control-label">
+          <input class="form-control" type="text" name="date" placeholder="{{event.date}}">
         </div>
       </div>
+      
       <div class="control-group">
         <label class="control-label" for="invites">Invites</label>
         {% for friend in friends %}
             <label class="checkbox">               
-                <input type="checkbox" name="friends">
+                <input class="form-control" type="checkbox" name="friends">
                 {{friend}}
         {% endfor %}
         </label>
