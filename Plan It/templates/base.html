@@ -29,7 +29,7 @@
       }
 
     </style>
-    <link href="../assets/css/bootstrap-responsive.css" rel="stylesheet">
+    
 
   </head>
 
@@ -46,12 +46,10 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <ul class="nav navbar-nav">
-	        <li><a class="brand" href="/"><img src="../assets/logo.png"/></a></li>
-          </ul>
         </div>
         <div class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
+            <li class="active"><a class="brand" href="/"><img src="../assets/logo.png"/></a></li>
             <li><a href="#" data-toggle="modal" data-target="#myModal"><span class="glyphicon glyphicon-plus"></span> Create Event</a></li>
             <li><a href="#"><span class="glyphicon glyphicon-flag"></span> Notifications</a></li>
           </ul>
@@ -63,12 +61,10 @@
           </form>
           <ul class="nav navbar-nav navbar-right">
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img width="18" height="18" src="https://graph.facebook.com/{{current_user.id}}/picture?type=square"/> {{current_user.name}} <b class="caret"></b></a>
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img width="18" height="18" src="https://graph.facebook.com/{{current_user.id}}/picture?type=square"/>{{current_user.name}}<b class="caret"></b></a>
               <ul class="dropdown-menu">
                 <li><a href="#">Settings</a></li>
-                <li>
-                  <fb:login-button autologoutlink="true" scope="publish_stream"></fb:login-button>
-                </li> 
+                <li><a href="/logout" onclick="FB.logout();">Logout</a></li>
               </ul>
             </li>
           </ul>
@@ -229,6 +225,7 @@
           {% if current_user %} window.location = "/logout" {% else %} window.location.reload(); {% endif %}
         });
       };
+
     </script>
     <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
     <script src="../assets/js/bootstrap.js"></script>
